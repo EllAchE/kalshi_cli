@@ -33,58 +33,25 @@ def main():
 
     if args.subparser_name in ['buy', 'sell']:
         try:
-            market = args.m
-            amount = args.a
-            index = args.i
-            slip_shares = args.n
+            pass
         except AttributeError as e:
             logger.error(e)
             exit()
 
-    elif args.subparser_name in ['redeem', 'split', 'merge']:
+    elif args.subparser_name in ['getMarket']:
         try:
-            condition_id = args.c
-            num_outcomes = args.n
-            amount = getattr(args, 'a', None)
+            id  = args.id
         except AttributeError as e:
             logger.error(e)
             exit()
 
-    elif args.subparser_name in ['sell_shares']:
-        try:
-            market_slug = args.s
-            outcome = args.o
-            num_shares = args.n
-            slippage = args.l
-        except AttributeError as e:
-            logger.error(e)
-            exit()
-
-    gas_price = getattr(args, 'g', None)
-    w3 = initialize_identity(gas_price)
-
-    trx_hash = None
     if args.subparser_name == 'buy':
-        trx_hash = buy(w3, market, amount, index, slip_shares)
+        # need to implement logic still
+        pass
 
     elif args.subparser_name == 'sell':
-        trx_hash = sell(w3, market, amount, index, slip_shares)
-
-    elif args.subparser_name == 'redeem':
-        trx_hash = redeem(w3, condition_id, num_outcomes)
-
-    elif args.subparser_name == 'split':
-        trx_hash = split(w3, condition_id, num_outcomes, amount)
-
-    elif args.subparser_name == 'merge':
-        trx_hash = merge(w3, condition_id, num_outcomes, amount)
-
-    elif args.subparser_name == "sell_shares":
-        trx_hash = sell_shares(w3, market_slug, outcome, num_shares, slippage)
+        pass
 
     elif args.subparser_name == 'positions':
-        list_positions(w3, w3.eth.default_account)
-        trx_hash = None
+        pass
 
-    if trx_hash:
-        print(Web3.toHex(trx_hash))
