@@ -9,20 +9,25 @@ def main():
     sub_parser = parser.add_subparsers(dest='subparser_name')
 
     buy_parser = sub_parser.add_parser('buy', help='Buy Shares')
-    buy_parser.add_argument('-a', help="Amount of shares to buy", type=float, required=True)
-    buy_parser.add_argument('-o', help="Index of outcome choice", type=int, required=True)
-    buy_parser.add_argument('-n', help="Minimum number of shares expected (slippage)", type=float, required=True)
+    buy_parser.add_argument('-amount', help="Amount of shares to buy", type=int, required=True)
+    buy_parser.add_argument('-id', help="ID of market choice", type=int, required=True)
+    buy_parser.add_argument('-price', help="Price to buy shares at", type=float, required=True)
+    buy_parser.add_argument('-expiration', help="Time in seconds until the order expires. If unspecified order will not expire.", type=float, required=False)
+    buy_parser.add_argument('-maxCost', help="The most that will be paid for an order.", type=float, required=False)
+    buy_parser.add_argument('-sellPositionCapped', help="Specifies whether the order place count should be capped by the members current position. Must be 'y' or 'n' for true or false.", type=float, required=False)
 
     sell_parser = sub_parser.add_parser('sell', help='Sell Shares')
-    sell_parser.add_argument('-m', help="Market Maker Address", required=True)
-    sell_parser.add_argument('-a', help="Amount to recover (USDC)", type=float, required=True)
-    sell_parser.add_argument('-i', help="Index of outcome choice", type=int, required=True)
-    sell_parser.add_argument('-n', help="Maximum number of shares expected (slippage)", type=float, required=True)
+    sell_parser.add_argument('-amount', help="Amount of shares to sell", type=int, required=True)
+    sell_parser.add_argument('-id', help="ID of market choice", type=int, required=True)
+    sell_parser.add_argument('-price', help="Price to buy shares at", type=float, required=True)
+    sell_parser.add_argument('-expiration', help="Time in seconds until the order expires. If unspecified order will not expire.", type=float, required=False)
+    sell_parser.add_argument('-maxCost', help="The most that will be paid for an order.", type=float, required=False)
+    sell_parser.add_argument('-sellPositionCapped', help="Specifies whether the order place count should be capped by the members current position. Must be 'y' or 'n' for true or false.", type=float, required=False)
 
-    redeem_parser = sub_parser.add_parser('market', help='Redeem Shares')
-    redeem_parser.add_argument('-id', help='ID of market to retrieve', required=True)
+    market_parser = sub_parser.add_parser('getMarket', help='Get Market Details')
+    market_parser.add_argument('-id', help="Id of the market to retrieve details for", required=True)
 
-    sub_parser.add_parser('positions', help='List Open Positions')
+    sub_parser.add_parser('positions', help='List open positions')
 
     args = parser.parse_args()
 
