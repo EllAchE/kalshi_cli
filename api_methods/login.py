@@ -8,5 +8,5 @@ def login(email, password):
         "email": email,
         "password": password
     }
-    response = requests.post(url=url, data=requestBody)
+    return requests.post(url=url, data=requestBody)
     # containers user_id, token (cookie?) and access_level

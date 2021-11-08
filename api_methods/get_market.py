@@ -2,7 +2,7 @@ import requests
 
 # https://kalshi-public-docs.s3.amazonaws.com/KalshiAPI.html#operation/GetMarket
 
-def printMarketOrderBook(market_id):
+def printMarketOrderBook(market_id): # id is not available via UI and is not the suffix in market urls.
     url = 'https://trading-api.kalshi.com/v1/markets/{}/order_book'.format(market_id) # this is cached so delayed
     response = requests.get(url)
     noInterest = response.raw.no
