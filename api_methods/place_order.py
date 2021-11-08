@@ -1,6 +1,7 @@
 import requests
 
 # https://kalshi-public-docs.s3.amazonaws.com/KalshiAPI.html#operation/UserOrderCreate
+# side must be 'yes' or 'no'
 
 def placeOrder(userId, cookie, count, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
     url = 'https://trading-api.kalshi.com/v1/users/{}/orders'.format(userId)
