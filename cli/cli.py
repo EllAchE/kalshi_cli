@@ -45,62 +45,67 @@ def main():
     args = parser.parse_args()
 
     if args.subparser_name in ['buy', 'sell']: # todo add common logic here
-        try:
-            amount = args.amount
-            marketId = args.id
-            price = args.price
-            side = args.side
-            expiration = args.expiration
-            maxCost = args.maxCost
-            sellPositionCapped = args.sellPositionCapped
-        except AttributeError as e:
-            logger.error(e)
-            exit()
-
-        if (amount < 0 or amount is None):
-            logger.warning("Amount must be greater than 0")
-            exit()
-        if(side != 'y' and side != 'n' or side is None):
-            logger.warning("Side must be either 'y' or 'n'")
-            exit()
-        if(price < 0.01 or price > 0.99 or price is None):
-            logger.warning("Price must be in the range 0.01-0.99, inclusive")
-            exit()
-        if(marketId is None):
-            logger.warning("Market ID must be defined")
-            exit()
-
-        if args.subparser_name == 'buy':
-            placeOrder(userId, cookie, amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
-            # need to implement logic still
-            pass
-
-        elif args.subparser_name == 'sell':
-            pass
-        try:
-            pass
-        except AttributeError as e:
-            logger.error(e)
-            exit()
+        parseBuyAndSell(args)
 
     elif args.subparser_name in ['getMarket']:
-        try:
-            marketId = args.id
-            printMarketOrderBook(cookie, marketId)
-        except AttributeError as e:
-            logger.error(e)
-            exit()
-        except Exception as e:
-            logger.error(e)
-            exit()
+        parseGetMarket(args)
 
-    elif args.subparser_name == 'positions':
+    elif args.subparser_name in ['positions']:
         try:
-            getPositions(userId, cookie)
-            pass
+            getPositions()
         except AttributeError as e:
             logger.error(e)
             exit()
 
     else: # Assumes user either sent the help command or malformed the request
         printHelpCommands()
+
+
+def parseGetMarket(args):
+    try:
+        marketId = args.id
+        printMarketOrderBook(marketId)
+    except AttributeError as e:
+        logger.error(e)
+        exit()
+    except Exception as e:
+        logger.error(e)
+        exit()
+
+
+def parseBuyAndSell(args):
+    try:
+        amount = args.amount
+        marketId = args.id
+        price = args.price
+        side = args.side
+        expiration = args.expiration
+        maxCost = args.maxCost
+        sellPositionCapped = args.sellPositionCapped
+    except AttributeError as e:
+        logger.error(e)
+        exit()
+    if (amount < 0 or amount is None):
+        logger.warning("Amount must be greater than 0")
+        exit()
+    if (side != 'y' and side != 'n' or side is None):
+        logger.warning("Side must be either 'y' or 'n'")
+        exit()
+    if (price < 0.01 or price > 0.99 or price is None):
+        logger.warning("Price must be in the range 0.01-0.99, inclusive")
+        exit()
+    if (marketId is None):
+        logger.warning("Market ID must be defined")
+        exit()
+    if args.subparser_name == 'buy':
+        placeOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
+        # need to implement logic still
+
+    elif args.subparser_name == 'sell':
+        placeOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
+        pass
+    try:
+        pass
+    except AttributeError as e:
+        logger.error(e)
+        exit()
