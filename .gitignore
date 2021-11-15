@@ -1,4 +1,5 @@
 pm_py
 .idea
 secrets.json
+credentials.json
 *.log

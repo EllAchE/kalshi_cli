@@ -2,11 +2,12 @@ import requests
 
 # https://kalshi-public-docs.s3.amazonaws.com/KalshiAPI.html#operation/UserOrderCreate
 # side must be 'yes' or 'no'
+# expiration in seconds I believe, todo - accept days, hours minutes etc. in expiration
 
-def placeOrder(userId, cookie, count, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
+def placeOrder(userId, cookie, amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
     url = 'https://trading-api.kalshi.com/v1/users/{}/orders'.format(userId)
     requestBody = {
-        "count": count,
+        "count": amount,
         "market_id": marketId,
         "price": price,
         "side": side
