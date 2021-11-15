@@ -5,7 +5,6 @@ import requests
 # expiration in seconds I believe, todo - accept days, hours minutes etc. in expiration
 
 def placeOrder(amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
-
     url = 'https://trading-api.kalshi.com/v1/users/{}/orders'.format(userId)
     requestBody = {
         "count": amount,
