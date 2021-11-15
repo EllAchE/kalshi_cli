@@ -72,7 +72,6 @@ def parseGetMarket(args):
         logger.error(e)
         exit()
 
-
 def parseBuyAndSell(args):
     try:
         amount = args.amount

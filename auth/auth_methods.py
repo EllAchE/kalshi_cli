@@ -8,6 +8,7 @@ import requests
 #   "user_id": "string"
 # }
 from api_methods.get_all_markets_with_auth import getAllMarketsWithAuth
+from cli.utils import bytesToJson
 
 
 def login():
@@ -19,9 +20,7 @@ def login():
         "password": secretsJson['password']
     }
     byteResponse = requests.post(url=url, json=requestBody).content
-    strResponse = byteResponse.decode()
-    jsonResponse = json.loads(strResponse)
-    return jsonResponse
+    return bytesToJson(byteResponse)
     # containers user_id, token (cookie?) and access_leveln
 
 def loadCredentials():
@@ -30,7 +29,6 @@ def loadCredentials():
 
 def regenerateCredentials():
     response = login()
-    print('content')
     saveObj = {
         "cookie": response['token'],
         "user_id": response['user_id'],
@@ -45,7 +43,7 @@ def getValidUserIdAndCookie():
     if creds['cookie'] is not None:
         testMarketsCall = getAllMarketsWithAuth(creds['cookie']) # todo hacky way to see if auth is valid
         if testMarketsCall.status_code == 200:
-            return creds.user_id, creds.cookie
+            return creds['user_id'], creds['cookie']
 
     regenerateCredentials()
     creds = loadCredentials()

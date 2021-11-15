@@ -1,10 +1,15 @@
 import requests
+from auth.auth_methods import getValidUserIdAndCookie
 
 # https://kalshi-public-docs.s3.amazonaws.com/KalshiAPI.html#operation/UserOrderCreate
 # side must be 'yes' or 'no'
 # expiration in seconds I believe, todo - accept days, hours minutes etc. in expiration
 
 def placeOrder(amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
+    userId, cookie = getValidUserIdAndCookie()
+    placeOrder(userId, cookie, amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
+
+def placeOrderWithAuth(userId, cookie, amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
     url = 'https://trading-api.kalshi.com/v1/users/{}/orders'.format(userId)
     requestBody = {
         "count": amount,
@@ -19,4 +24,4 @@ def placeOrder(amount, marketId, price, side, expiration=None, maxCost=None, sel
     if sellPositionCapped != None:
         requestBody['sell_position_capped'] = sellPositionCapped
 
-    requests.post(url, auth=cookie, data=requestBody)
+    return requests.post(url, auth=cookie, data=requestBody) # will want to print result
