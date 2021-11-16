@@ -7,8 +7,8 @@ import requests
 #   "token": "string",
 #   "user_id": "string"
 # }
-from api_methods.get_all_markets_with_auth import getAllMarketsWithAuth
-from cli.utils import bytesToJson
+from get_all_markets_with_auth import getAllMarketsWithAuth
+from utils import bytesToJson
 
 
 def login():

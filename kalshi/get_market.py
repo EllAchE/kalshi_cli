@@ -1,8 +1,8 @@
 import requests
 
 # https://kalshi-public-docs.s3.amazonaws.com/KalshiAPI.html#operation/GetMarket
-from auth.auth_methods import getValidUserIdAndCookie
-from cli.utils import bytesToJson
+from auth_methods import getValidUserIdAndCookie
+from utils import bytesToJson
 
 
 def printMarketOrderBook(marketId): # id is not available via UI and is not the suffix in market urls.

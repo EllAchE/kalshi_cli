@@ -1,12 +1,13 @@
 import unittest
 
-from api_methods.get_market import printMarketOrderBook
-from api_methods.get_positions import getPositions
-from api_methods.place_order import placeOrder
-from auth.auth_methods import getValidUserIdAndCookie
-from api_methods.get_all_markets import getAllMarkets
-
 # Requires auth in order to run unit tests, even on getMarkets which should be unauthed
+from kalshi.auth_methods import getValidUserIdAndCookie
+from kalshi.get_all_markets import getAllMarkets
+from kalshi.get_market import printMarketOrderBook
+from kalshi.get_positions import getPositions
+from kalshi.place_order import placeOrder
+
+
 class TestUnauthedApiCalls(unittest.TestCase):
     def testGetAllMarkets(self):
         response = getAllMarkets()
@@ -35,4 +36,6 @@ class TestUnauthedApiCalls(unittest.TestCase):
         sellPositionCapped = None # optional argument
         expiration = 1 # order lasts for one second if set this way
 
+        # no asserts
         testOrder = placeOrder(amount, testMarketId, price, side, expiration, maxCost, sellPositionCapped)
+        print(testOrder)

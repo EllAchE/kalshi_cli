@@ -1,9 +1,10 @@
 import requests
-from auth.auth_methods import getValidUserIdAndCookie
 
 # https://kalshi-public-docs.s3.amazonaws.com/KalshiAPI.html#operation/UserOrderCreate
 # side must be 'yes' or 'no'
 # expiration in seconds I believe, todo - accept days, hours minutes etc. in expiration
+from auth_methods import getValidUserIdAndCookie
+
 
 def placeOrder(amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
     userId, cookie = getValidUserIdAndCookie()

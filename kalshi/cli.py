@@ -1,15 +1,15 @@
 import argparse
 import logging
 
-from api_methods.get_market import printMarketOrderBook
-from api_methods.get_positions import getPositions
-from api_methods.place_order import placeOrder
-from cli.utils import printHelpCommands, getHelpMessage
+from get_market import printMarketOrderBook
+from get_positions import getPositions
+from place_order import placeOrder
+from utils import getHelpMessage, printHelpCommands
 
 logging.basicConfig(filename='logs.log', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def main():
+def entryMain():
     parser = argparse.ArgumentParser(prog='kalshi')
     sub_parser = parser.add_subparsers(dest='subparser_name')
 
@@ -108,3 +108,7 @@ def parseBuyAndSell(args):
     except AttributeError as e:
         logger.error(e)
         exit()
+
+
+if __name__ == '__main__':
+    entryMain()

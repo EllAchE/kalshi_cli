@@ -1,8 +1,5 @@
 import json
 
-import requests
-
-
 def printHelpCommands():
     print(getHelpMessage())
 
