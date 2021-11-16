@@ -1,10 +1,10 @@
 import argparse
 import logging
 
-from get_market import printMarketOrderBook
-from get_positions import getPositions
-from place_order import placeOrder
-from utils import getHelpMessage, printHelpCommands
+from kalshi.get_market import printMarketOrderBook
+from kalshi.get_positions import getPositions
+from kalshi.place_order import placeOrder
+from kalshi.utils import getHelpMessage, printHelpCommands
 
 logging.basicConfig(filename='logs.log', level=logging.INFO)
 logger = logging.getLogger(__name__)

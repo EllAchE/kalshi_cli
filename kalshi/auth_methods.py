@@ -7,8 +7,8 @@ import requests
 #   "token": "string",
 #   "user_id": "string"
 # }
-from get_all_markets_with_auth import getAllMarketsWithAuth
-from utils import bytesToJson
+from kalshi.get_all_markets_with_auth import getAllMarketsWithAuth
+from kalshi.utils import bytesToJson
 
 
 def login():
@@ -38,7 +38,7 @@ def regenerateCredentials():
         json.dump(saveObj, credFile)
     print('updated credentials')
 
-def getValidUserIdAndCookie():
+def getValidUserIdAndCookie(): # todo rather than use this hacky method, add try/catch for 200s on methods that require auth
     creds = loadCredentials()
     if creds['cookie'] is not None:
         testMarketsCall = getAllMarketsWithAuth(creds['cookie']) # todo hacky way to see if auth is valid

@@ -1,8 +1,8 @@
 # https://kalshi-public-docs.s3.amazonaws.com/KalshiAPI.html#operation/UserGetMarketPositions
 import requests
 
-from auth_methods import getValidUserIdAndCookie
-from utils import bytesToJson
+from kalshi.auth_methods import getValidUserIdAndCookie
+from kalshi.utils import bytesToJson
 
 
 def getPositions(): # id is not available via UI and is not the suffix in market urls.
