@@ -6,9 +6,13 @@ import requests
 from kalshi.auth_methods import getValidUserIdAndCookie
 
 
-def placeOrder(amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
+def placeLimitOrder(amount, marketId, side, expiration=None, maxCost=None, sellPositionCapped=None):
     userId, cookie = getValidUserIdAndCookie()
-    placeOrder(userId, cookie, amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
+    placeOrderWithAuth(userId, cookie, amount, marketId, 0.99, side, expiration, maxCost, sellPositionCapped) # todo add a warning when a user places a market order (or just don't enable it at all)
+
+# def placeMarketOrder(amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
+#     userId, cookie = getValidUserIdAndCookie()
+#     placeOrderWithAuth(userId, cookie, amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
 
 def placeOrderWithAuth(userId, cookie, amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
     url = 'https://trading-api.kalshi.com/v1/users/{}/orders'.format(userId)

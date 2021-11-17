@@ -3,7 +3,7 @@ import logging
 
 from kalshi.get_market import printMarketOrderBook
 from kalshi.get_positions import getPositions
-from kalshi.place_order import placeOrder
+from kalshi.place_order import placeLimitOrder
 from kalshi.utils import getHelpMessage, printHelpCommands
 
 logging.basicConfig(filename='logs.log', level=logging.INFO)
@@ -15,27 +15,17 @@ def entryMain():
 
     sub_parser.add_parser('help', help=getHelpMessage())
 
-    expirationHelpMessage = "Time in seconds until the order expires. If unspecified order will not expire."
-    sellPositionCappedHelpMessage = "Specifies whether the order place count should be capped by the members current position." \
-                            "Must be 'y' or 'n' for true or false."
-
     buy_parser = sub_parser.add_parser('buy', help='Buy Shares')
+    addOrderPlacingArguments(buy_parser)
     buy_parser.add_argument('-a', help="Amount of shares to buy", type=int, required=True)
-    buy_parser.add_argument('-id', help="ID of market choice", type=int, required=True)
     buy_parser.add_argument('-p', help="Price to buy shares at", type=float, required=True)
     buy_parser.add_argument('-s', help="Specify if you are buying yes or no shares. input a 'y' or 'n'", type=str, required=True)
-    buy_parser.add_argument('-e', help=expirationHelpMessage, type=float, required=False)
-    buy_parser.add_argument('-max', help="The most that will be paid for an order.", type=float, required=False)
-    buy_parser.add_argument('-sellCap', help=sellPositionCappedHelpMessage, type=float, required=False)
 
     sell_parser = sub_parser.add_parser('sell', help='Sell Shares')
+    addOrderPlacingArguments(sell_parser)
+    sell_parser.add_argument('-p', help="Price to sell shares at", type=float, required=True)
     sell_parser.add_argument('-a', help="Amount of shares to sell", type=int, required=True)
-    sell_parser.add_argument('-id', help="ID of market choice", type=int, required=True)
-    sell_parser.add_argument('-p', help="Price to buy shares at", type=float, required=True)
-    sell_parser.add_argument('-s', help="Specify if you are buying yes or no shares. input a 'y' or 'n'", type=str, required=True)
-    sell_parser.add_argument('-e', help=expirationHelpMessage, type=float, required=False)
-    sell_parser.add_argument('-max', help="The most that will be paid for an order.", type=float, required=False)
-    sell_parser.add_argument('-sellCap', help=sellPositionCappedHelpMessage, type=float, required=False)
+    sell_parser.add_argument('-s', help="Specify if you are selling yes or no shares. input a 'y' or 'n'", type=str, required=True)
 
     market_parser = sub_parser.add_parser('getMarket', help='Get Market Details')
     market_parser.add_argument('-id', help="Id of the market to retrieve details for", required=True)
@@ -59,6 +49,19 @@ def entryMain():
 
     else: # Assumes user either sent the help command or malformed the request
         printHelpCommands()
+
+
+def addOrderPlacingArguments(parser):
+    expirationHelpMessage = "Time in {} until the order expires. If unspecified order will not expire."
+    sellPositionCappedHelpMessage = "Specifies whether the order place count should be capped by the members current position." \
+                            "Must be 'y' or 'n' for true or false."
+    parser.add_argument('-id', help="ID of market choice", type=int, required=True)
+    parser.add_argument('-es', help=expirationHelpMessage.format('seconds'), type=float, required=False)
+    parser.add_argument('-em', help=expirationHelpMessage.format('minutes'), type=float, required=False)
+    parser.add_argument('-eh', help=expirationHelpMessage.format('hours'), type=float, required=False)
+    parser.add_argument('-ed', help=expirationHelpMessage.format('days'), type=float, required=False)
+    parser.add_argument('-max', help="The most that will be paid for an order.", type=float, required=False)
+    parser.add_argument('-sellCap', help=sellPositionCappedHelpMessage, type=float, required=False)
 
 
 def parseGetMarket(args):
@@ -97,11 +100,11 @@ def parseBuyAndSell(args):
         logger.warning("Market ID must be defined")
         exit()
     if args.subparser_name == 'buy':
-        placeOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
+        placeLimitOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
         # need to implement logic still
 
     elif args.subparser_name == 'sell':
-        placeOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
+        placeLimitOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
         pass
     try:
         pass
