@@ -10,37 +10,38 @@ logging.basicConfig(filename='logs.log', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def entryMain():
-    parser = argparse.ArgumentParser(prog='kalshi')
-    sub_parser = parser.add_subparsers(dest='subparser_name')
+    baseParser = argparse.ArgumentParser(prog='kalshi')
+    subParser = baseParser.add_subparsers(dest='subparser_name')
 
-    sub_parser.add_parser('help', help=getHelpMessage())
+    subParser.add_parser('help', help=getHelpMessage())
 
-    buy_parser = sub_parser.add_parser('buy', help='Buy Shares')
-    addOrderPlacingArguments(buy_parser)
-    buy_parser.add_argument('-a', help="Amount of shares to buy", type=int, required=True)
-    buy_parser.add_argument('-p', help="Price to buy shares at", type=float, required=True)
-    buy_parser.add_argument('-s', help="Specify if you are buying yes or no shares. input a 'y' or 'n'", type=str, required=True)
+    buyParser = subParser.add_parser('buy', help='Buy Shares')
+    addOrderPlacingArguments(buyParser)
+    buyParser.add_argument('-a', help="Amount of shares to buy", type=int, required=True)
+    buyParser.add_argument('-p', help="Price to buy shares at", type=float, required=True)
+    buyParser.add_argument('-s', help="Specify if you are buying yes or no shares. input a 'y' or 'n'", type=str, required=True)
 
-    sell_parser = sub_parser.add_parser('sell', help='Sell Shares')
-    addOrderPlacingArguments(sell_parser)
-    sell_parser.add_argument('-a', help="Amount of shares to sell", type=int, required=True)
-    sell_parser.add_argument('-p', help="Price to sell shares at", type=float, required=True)
-    sell_parser.add_argument('-s', help="Specify if you are selling yes or no shares. input a 'y' or 'n'", type=str, required=True)
+    sellParser = subParser.add_parser('sell', help='Sell Shares')
+    addOrderPlacingArguments(sellParser)
+    sellParser.add_argument('-a', help="Amount of shares to sell", type=int, required=True)
+    sellParser.add_argument('-p', help="Price to sell shares at", type=float, required=True)
+    sellParser.add_argument('-s', help="Specify if you are selling yes or no shares. input a 'y' or 'n'", type=str, required=True)
 
-    market_parser = sub_parser.add_parser('getMarket', help='Get Market Details')
-    market_parser.add_argument('-id', help="Id of the market to retrieve details for", required=True)
+    mktParser = subParser.add_parser('getMarket', help='Get Market Details')
+    mktParser.add_argument('-id', help="Id of the market to retrieve details for", required=True)
+    # todo switch this to ticker based
 
-    sub_parser.add_parser('positions', help='List open positions')
+    subParser.add_parser('positions', help='List open positions')
 
-    args = parser.parse_args()
+    args = baseParser.parse_args()
 
     if args.subparser_name in ['buy', 'sell']: # todo add common logic here
         parseBuyAndSell(args)
 
-    elif args.subparser_name in ['getMarket']:
+    elif args.subparser_name == 'getMarket':
         parseGetMarket(args)
 
-    elif args.subparser_name in ['positions']:
+    elif args.subparser_name == 'positions':
         try:
             getPositions()
         except AttributeError as e:
@@ -105,7 +106,6 @@ def parseBuyAndSell(args):
 
     elif args.subparser_name == 'sell':
         placeLimitOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
-        pass
     try:
         pass
     except AttributeError as e:
