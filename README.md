@@ -9,13 +9,13 @@ Supported operations include:
 
 [Kalshi docs](https://kalshi-public-docs.s3.amazonaws.com/KalshiAPI.html) 
 
-###Setup
-(WIP, repo is functional if you are a power user)
+### Setup
+WIP
 
-###Usage
+### Usage
     kalshi help - lists usages within CLI
     
-######Placing Orders
+###### Placing Orders
     kalshi buy -a <amount> -id <marketId> -p <price> -s <side> -e <expiration> -max <maxCost> -sellCap <sellPositionCapped> 
     kalshi sell -a <amount> -id <marketId> -p <price> -s <side> -e <expiration> -max <maxCost> -sellCap <sellPositionCapped> 
 
@@ -23,12 +23,12 @@ There are no "buy" and "sell" orders in kalshi, you can buy shares on one side, 
 side to close a position (see the site for more details). The sell command, therefore, attempts to place an order to "close", 
 or buy a contract on the opposite side that you offer (all contracts are yes/no binaries)
 
-######Retrieving Markets
+###### Retrieving Markets
     kalshi getMarket -id <id>
     kalshi getMarkets
     
 
-######Retrieving Positions
+###### Retrieving Positions
     kalshi positions
 
 ### Notes
