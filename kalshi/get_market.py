@@ -20,3 +20,6 @@ def printMarketOrderBookWithAuth(marketId, cookie): # id is not available via UI
     print('yesInterest:\n', yesInterest)
 
 def getMarketByTicker(ticker):
+    url = '{}/markets_by_ticker/{}'.format(API_PREFIX, ticker)
+    response = requests.get(url=url)
+    return bytesToJson(response.content)

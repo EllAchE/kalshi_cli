@@ -7,10 +7,7 @@ Supported operations include:
 - Retrieve user positions
 - Place order (with custom expiration, not supported via UI)
 
-![Alt text](./assets/logo.png)
-
 [Kalshi docs](https://kalshi-public-docs.s3.amazonaws.com/KalshiAPI.html) 
-// todo html format README landing page
 
 ###Setup
 (WIP, repo is functional if you are a power user)
