@@ -36,6 +36,4 @@ or buy a contract on the opposite side that you offer (all contracts are yes/no 
 This tool is still a WIP. Outstanding items include:
 - 
 
-Unfortunately I couldn't see anywhere in the docs that it was
-
 Contributing:
