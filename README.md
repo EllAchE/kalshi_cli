@@ -34,6 +34,11 @@ or buy a contract on the opposite side that you offer (all contracts are yes/no 
 ### Notes
 
 This tool is still a WIP. Outstanding items include:
-- 
+- Supporting new Kalshi API methods
+- Using local json to map ticker to market ID for methods dependent on market ID
+- Additional test coverage
+- Pretty print orderbook
+- Pretty print market bids for cached markets
+- Add addtional arguments for methods not currently supported
 
 Contributing:

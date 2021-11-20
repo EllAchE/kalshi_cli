@@ -9,7 +9,7 @@ from kalshi.utils import getHelpMessage, printHelpCommands
 logging.basicConfig(filename='logs.log', level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def entryMain():
+def createParsers():
     baseParser = argparse.ArgumentParser(prog='kalshi')
     subParser = baseParser.add_subparsers(dest='subparser_name')
 
@@ -114,4 +114,4 @@ def parseBuyAndSell(args):
 
 
 if __name__ == '__main__':
-    entryMain()
+    createParsers()

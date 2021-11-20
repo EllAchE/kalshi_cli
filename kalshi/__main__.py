@@ -1,4 +1,4 @@
-from cli import entryMain
+from cli import createParsers
 
 if __name__ == "__main__":
-    exit(entryMain())
+    exit(createParsers())
