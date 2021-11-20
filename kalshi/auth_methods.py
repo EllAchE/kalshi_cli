@@ -7,6 +7,7 @@ import requests
 #   "token": "string",
 #   "user_id": "string"
 # }
+from kalshi.ENVIRONMENT import API_PREFIX
 from kalshi.get_all_markets_with_auth import getAllMarketsWithAuth
 from kalshi.utils import bytesToJson
 
@@ -14,7 +15,7 @@ from kalshi.utils import bytesToJson
 def login():
     secretsFile = open('../secrets.json')
     secretsJson = json.load(secretsFile)
-    url = 'https://trading-api.kalshi.com/v1/log_in'
+    url = '{}/log_in'.format(API_PREFIX)
     requestBody = {
         "email": secretsJson['email'],
         "password": secretsJson['password']

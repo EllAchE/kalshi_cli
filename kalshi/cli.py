@@ -23,8 +23,8 @@ def entryMain():
 
     sell_parser = sub_parser.add_parser('sell', help='Sell Shares')
     addOrderPlacingArguments(sell_parser)
-    sell_parser.add_argument('-p', help="Price to sell shares at", type=float, required=True)
     sell_parser.add_argument('-a', help="Amount of shares to sell", type=int, required=True)
+    sell_parser.add_argument('-p', help="Price to sell shares at", type=float, required=True)
     sell_parser.add_argument('-s', help="Specify if you are selling yes or no shares. input a 'y' or 'n'", type=str, required=True)
 
     market_parser = sub_parser.add_parser('getMarket', help='Get Market Details')
