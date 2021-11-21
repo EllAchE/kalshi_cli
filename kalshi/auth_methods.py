@@ -7,14 +7,14 @@ import requests
 #   "token": "string",
 #   "user_id": "string"
 # }
+from kalshi.logger import LOG
 from kalshi.ENVIRONMENT import API_PREFIX
-from kalshi.get_all_markets_with_auth import getAllMarketsWithAuth
 from kalshi.utils import bytesToJson
 
 
 def login():
-    secretsFile = open('../secrets.json')
-    secretsJson = json.load(secretsFile)
+    with open('../secrets.json') as secretsFile:
+        secretsJson = json.load(secretsFile)
     url = '{}/log_in'.format(API_PREFIX)
     requestBody = {
         "email": secretsJson['email'],
@@ -25,8 +25,8 @@ def login():
     # containers user_id, token (cookie?) and access_leveln
 
 def loadCredentials():
-    credentialsFile = open('../credentials.json')
-    return json.load(credentialsFile)
+    with open('../credentials.json') as credentialsFile:
+        return json.load(credentialsFile)
 
 def regenerateCredentials():
     response = login()
@@ -57,3 +57,14 @@ def getStoredUserId():
 def getStoredCookie():
     creds = loadCredentials()
     return creds['cookie']
+
+def sendRequestAndRetryOnAuthFailure(retrievalFunction, **kwargs):
+    try:
+        response = retrievalFunction(**kwargs)
+        if response.status_code != 200: # todo validate that response codes for bad auth can only be in [401, 403] then look for these rather than non 200
+            regenerateCredentials()
+            return retrievalFunction(**kwargs)
+        else:
+            return response
+    except Exception as e:
+        LOG.error(e)

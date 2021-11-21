@@ -4,7 +4,7 @@ from kalshi.get_market import printMarketOrderBook
 from kalshi.get_positions import getPositions
 from kalshi.place_order import placeLimitOrder
 from kalshi.utils import getHelpMessage, printHelpCommands
-from kalshi.logger import logger
+from kalshi.logger import LOG
 
 def createParsers():
     baseParser = argparse.ArgumentParser(prog='kalshi')
@@ -42,7 +42,7 @@ def createParsers():
         try:
             getPositions()
         except AttributeError as e:
-            logger.error(e)
+            LOG.error(e)
             exit()
 
     else: # Assumes user either sent the help command or malformed the request
@@ -67,10 +67,10 @@ def parseGetMarket(args):
         marketId = args.id
         printMarketOrderBook(marketId)
     except AttributeError as e:
-        logger.error(e)
+        LOG.error(e)
         exit()
     except Exception as e:
-        logger.error(e)
+        LOG.error(e)
         exit()
 
 def parseBuyAndSell(args):
@@ -83,19 +83,19 @@ def parseBuyAndSell(args):
         maxCost = args.maxCost
         sellPositionCapped = args.sellPositionCapped
     except AttributeError as e:
-        logger.error(e)
+        LOG.error(e)
         exit()
     if (amount < 0 or amount is None):
-        logger.warning("Amount must be greater than 0")
+        LOG.warning("Amount must be greater than 0")
         exit()
     if (side != 'y' and side != 'n' or side is None):
-        logger.warning("Side must be either 'y' or 'n'")
+        LOG.warning("Side must be either 'y' or 'n'")
         exit()
     if (price < 0.01 or price > 0.99 or price is None):
-        logger.warning("Price must be in the range 0.01-0.99, inclusive")
+        LOG.warning("Price must be in the range 0.01-0.99, inclusive")
         exit()
     if (marketId is None):
-        logger.warning("Market ID must be defined")
+        LOG.warning("Market ID must be defined")
         exit()
     if args.subparser_name == 'buy':
         placeLimitOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
@@ -106,7 +106,7 @@ def parseBuyAndSell(args):
     try:
         pass
     except AttributeError as e:
-        logger.error(e)
+        LOG.error(e)
         exit()
 
 

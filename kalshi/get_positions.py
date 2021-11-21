@@ -2,11 +2,11 @@
 import requests
 
 from kalshi.ENVIRONMENT import API_PREFIX
-from kalshi.auth_methods import getValidUserIdAndCookie, getStoredCookie, getStoredUserId
-from kalshi.utils import bytesToJson, sendRequestAndRetryOnAuthFailure
+from kalshi.auth_methods import getStoredCookie, getStoredUserId, sendRequestAndRetryOnAuthFailure
+from kalshi.utils import bytesToJson
 
 
-def getPositionsWithAuth():
+def getPositions():
     url = '{}/users/{}/positions'.format(API_PREFIX, getStoredUserId())
     # response = requests.get(url=url, headers={"Authorization": 'Bearer {}'.format(cookie)}) # cookie may need to be a tuple
     response = sendRequestAndRetryOnAuthFailure(requests.get, url=url, headers={"Authorization": 'Bearer {}'.format(getStoredCookie())})

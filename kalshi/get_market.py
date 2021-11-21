@@ -2,8 +2,8 @@ import requests
 
 # https://kalshi-public-docs.s3.amazonaws.com/KalshiAPI.html#operation/GetMarket
 from kalshi.ENVIRONMENT import API_PREFIX
-from kalshi.auth_methods import getValidUserIdAndCookie, getStoredCookie
-from kalshi.utils import bytesToJson, sendRequestAndRetryOnAuthFailure
+from kalshi.auth_methods import getStoredCookie, sendRequestAndRetryOnAuthFailure
+from kalshi.utils import bytesToJson
 
 
 def printMarketOrderBook(marketId): # id is not available via UI and is not the suffix in market urls.

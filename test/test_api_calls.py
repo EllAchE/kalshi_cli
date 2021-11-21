@@ -11,7 +11,7 @@ from kalshi.place_order import placeOrder
 class TestUnauthedApiCalls(unittest.TestCase):
     def testGetAllMarkets(self):
         response = getAllMarkets()
-        self.assertEqual("abc", response)
+        self.assertEqual("markets", list(response.keys())[0])
 
     def testLogin(self):
         user_id, cookie = getValidUserIdAndCookie()

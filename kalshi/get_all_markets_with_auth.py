@@ -3,8 +3,7 @@ import requests
 from kalshi.ENVIRONMENT import API_PREFIX
 
 # Separated to use as a proxy to determine if a token is still valid
-from kalshi.auth_methods import getStoredCookie
-from kalshi.utils import sendRequestAndRetryOnAuthFailure
+from kalshi.auth_methods import getStoredCookie, sendRequestAndRetryOnAuthFailure
 
 
 def getAllMarketsWithAuth(): # Returns detail on ALL markets in json.

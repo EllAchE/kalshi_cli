@@ -1,4 +1,4 @@
 import logging
 
 logging.basicConfig(filename='logs.log', level=logging.INFO)
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
