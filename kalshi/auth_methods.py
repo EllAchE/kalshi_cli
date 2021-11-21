@@ -42,10 +42,18 @@ def regenerateCredentials():
 def getValidUserIdAndCookie(): # todo rather than use this hacky method, add try/catch for 200s on methods that require auth
     creds = loadCredentials()
     if creds['cookie'] is not None:
-        testMarketsCall = getAllMarketsWithAuth(creds['cookie']) # todo hacky way to see if auth is valid
-        if testMarketsCall.status_code == 200:
-            return creds['user_id'], creds['cookie']
+        # testMarketsCall = getAllMarketsWithAuth(creds['cookie']) # todo hacky way to see if auth is valid
+        # if testMarketsCall.status_code == 200:
+        return creds['user_id'], creds['cookie']
 
     regenerateCredentials()
     creds = loadCredentials()
     return creds['user_id'], creds['cookie']
+
+def getStoredUserId():
+    creds = loadCredentials()
+    return creds['user_id']
+
+def getStoredCookie():
+    creds = loadCredentials()
+    return creds['cookie']

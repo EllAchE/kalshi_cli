@@ -6,12 +6,11 @@ import requests
 from kalshi.ENVIRONMENT import API_PREFIX
 from kalshi.get_all_markets_with_auth import getAllMarketsWithAuth
 from kalshi.auth_methods import getValidUserIdAndCookie
-from kalshi.utils import bytesToJson
+from kalshi.utils import bytesToJson, sendRequestAndRetryOnAuthFailure
 
 
 def getAllMarkets(): # Returns detail on ALL markets in json.
-    user_id, cookie = getValidUserIdAndCookie()
-    marketsResponse = getAllMarketsWithAuth(cookie)
+    marketsResponse = getAllMarketsWithAuth()
     jsonMarketResponse = bytesToJson(marketsResponse.content)
     with open('data/markets.json') as jsonMarketFile:
         json.dump(jsonMarketFile)
@@ -20,4 +19,5 @@ def getAllMarkets(): # Returns detail on ALL markets in json.
 
 def getAllMarketsCached(): # Returns detail on ALL markets in json. Should not require auth, but should be delayed due to caching
     callUrl = '{}/cached/markets/'.format(API_PREFIX)
-    return requests.get(url=callUrl)
+    return sendRequestAndRetryOnAuthFailure(requests.get, url=callUrl)
+    # return requests.get(url=callUrl)
