@@ -4,13 +4,14 @@ import requests
 # side must be 'yes' or 'no'
 # expiration in seconds I believe, todo - accept days, hours minutes etc. in expiration
 from kalshi.ENVIRONMENT import API_PREFIX
-from kalshi.auth_methods import getValidUserIdAndCookie, getStoredUserId, getStoredCookie, \
-    sendRequestAndRetryOnAuthFailure
+from kalshi.auth_methods import getStoredUserId, getStoredCookie, sendRequestAndRetryOnAuthFailure
 
 
 # def placeMarketOrder(amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
 #     userId, cookie = getValidUserIdAndCookie()
 #     placeOrderWithAuth(userId, cookie, amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
+from kalshi.utils import bytesToJson
+
 
 def placeOrder(amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
     url = '{}/users/{}/orders'.format(API_PREFIX, getStoredUserId())
@@ -27,5 +28,9 @@ def placeOrder(amount, marketId, price, side, expiration=None, maxCost=None, sel
     if sellPositionCapped != None:
         requestBody['sell_position_capped'] = sellPositionCapped
 
-    return sendRequestAndRetryOnAuthFailure(requests.post, auth=getStoredCookie(), data=requestBody)
-    #return requests.post(url, auth=getStoredCookie(), data=requestBody) # will want to print result
+    response = sendRequestAndRetryOnAuthFailure(requests.post, url=url, headers={"Authorization": 'Bearer {}'.format(getStoredCookie())}, data=requestBody)
+    jsonResponse = bytesToJson(response.content)
+    if response.status_code == 200:
+        print('placed order!')
+    return jsonResponse
+    #return requests.post() # will want to print result

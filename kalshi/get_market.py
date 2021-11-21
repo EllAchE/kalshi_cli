@@ -14,9 +14,16 @@ def printMarketOrderBook(marketId): # id is not available via UI and is not the 
     yesInterest = jsonResponse['order_book']['no']
     print('noInterest:\n', noInterest)
     print('yesInterest:\n', yesInterest)
+    return noInterest, yesInterest
 
 def getMarketByTicker(ticker):
     url = '{}/markets_by_ticker/{}'.format(API_PREFIX, ticker)
+    # response = requests.get(url=url)
+    response = sendRequestAndRetryOnAuthFailure(requests.get, url=url)
+    return bytesToJson(response.content)
+
+def getMarketByTickerCached(ticker):
+    url = '{}/cached/markets_by_ticker/{}'.format(API_PREFIX, ticker)
     # response = requests.get(url=url)
     response = sendRequestAndRetryOnAuthFailure(requests.get, url=url)
     return bytesToJson(response.content)

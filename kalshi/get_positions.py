@@ -13,3 +13,5 @@ def getPositions():
     jsonResponse = bytesToJson(response.content)
     for market in jsonResponse['market_positions']:
         print(market['market_id'], market['position'])
+
+    return jsonResponse
