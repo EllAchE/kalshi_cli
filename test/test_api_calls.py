@@ -8,7 +8,7 @@ from kalshi.get_positions import getPositions
 from kalshi.place_order import placeOrder
 
 
-class TestUnauthedApiCalls(unittest.TestCase):
+class TestApiCalls(unittest.TestCase):
     def testGetAllMarkets(self):
         response = getAllMarkets()
         self.assertEqual("markets", list(response.keys())[0])

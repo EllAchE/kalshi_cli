@@ -1,8 +1,5 @@
 import json
 
-from kalshi.get_all_markets import getAllMarkets
-
-
 def printHelpCommands():
     print(getHelpMessage())
 

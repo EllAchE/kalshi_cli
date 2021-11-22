@@ -18,9 +18,11 @@ def getIdFromTicker(ticker):
             LOG.error("no match found for market with ticker {} after reattempt".format(ticker))
             return None
 
-
 def findTickerInLocalFile(ticker):
     with open('data/markets.json') as jsonMarketFile:
         marketsJson = json.load(jsonMarketFile)
 
-    return list(filter(lambda a: a['ticker_name'] == ticker, marketsJson))[0]
+    try:
+        return list(filter(lambda a: a['ticker_name'] == ticker, marketsJson['markets']))[0]
+    except:
+        return None

@@ -2,8 +2,8 @@ import argparse
 
 from kalshi.get_market import printMarketOrderBook
 from kalshi.get_positions import getPositions
-from kalshi.place_order import placeLimitOrder
-from kalshi.utils import getHelpMessage, printHelpCommands
+from kalshi.place_order import placeOrder
+from kalshi.utils import getHelpMessage, printHelpCommands, generateExpirationSeconds
 from kalshi.logger import LOG
 
 def createParsers():
@@ -53,7 +53,8 @@ def addOrderPlacingArguments(parser):
     expirationHelpMessage = "Time in {} until the order expires. If unspecified order will not expire."
     sellPositionCappedHelpMessage = "Specifies whether the order place count should be capped by the members current position." \
                             "Must be 'y' or 'n' for true or false."
-    parser.add_argument('-id', help="ID of market choice", type=int, required=True)
+    parser.add_argument('-id', help="ID of market choice. Must specify this or ticker", type=str, required=False)
+    parser.add_argument('-ti', help="Ticker of market choice. Must specify this or id", type=str, required=False)
     parser.add_argument('-es', help=expirationHelpMessage.format('seconds'), type=float, required=False)
     parser.add_argument('-em', help=expirationHelpMessage.format('minutes'), type=float, required=False)
     parser.add_argument('-eh', help=expirationHelpMessage.format('hours'), type=float, required=False)
@@ -75,39 +76,48 @@ def parseGetMarket(args):
 
 def parseBuyAndSell(args):
     try:
-        amount = args.amount
-        marketId = args.id
-        price = args.price
-        side = args.side
-        expiration = args.expiration
-        maxCost = args.maxCost
-        sellPositionCapped = args.sellPositionCapped
-    except AttributeError as e:
-        LOG.error(e)
-        exit()
-    if (amount < 0 or amount is None):
-        LOG.warning("Amount must be greater than 0")
-        exit()
-    if (side != 'y' and side != 'n' or side is None):
-        LOG.warning("Side must be either 'y' or 'n'")
-        exit()
-    if (price < 0.01 or price > 0.99 or price is None):
-        LOG.warning("Price must be in the range 0.01-0.99, inclusive")
-        exit()
-    if (marketId is None):
-        LOG.warning("Market ID must be defined")
-        exit()
-    if args.subparser_name == 'buy':
-        placeLimitOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
-        # need to implement logic still
+        exSeconds = args.es
+        exMinutes = args.em
+        exHours = args.eh
+        exDays = args.ed
+        expiration = generateExpirationSeconds(seconds=exSeconds, minutes=exMinutes, hours=exHours, days=exDays)
 
-    elif args.subparser_name == 'sell':
-        placeLimitOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
-    try:
-        pass
+        amount = args.a
+        marketId = args.id
+        ticker = args.ti
+        price = args.p
+        side = args.s
+        maxCost = args.max
+        sellPositionCapped = args.sellPositionCapped
+
+        if (amount < 0 or amount is None):
+            LOG.warning("Amount must be greater than 0")
+            exit()
+        if (side != 'y' and side != 'n' or side is None):
+            LOG.warning("Side must be either 'y' or 'n'")
+            exit()
+        if (price < 0.01 or price > 0.99 or price is None):
+            LOG.warning("Price must be in the range 0.01-0.99, inclusive")
+            exit()
+        if (marketId is None and ticker is None):
+            LOG.warning("Either ticker or id must be specified")
+            exit()
+
+        if args.subparser_name == 'sell':
+            price = 1 - price
+            if side == 'y': # convert to opposite for "sell", as you need to buy opposite side
+                side = 'n'
+            else:
+                side = 'y'
+        placeOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
+
     except AttributeError as e:
         LOG.error(e)
         exit()
+    except Exception as e:
+        LOG.error(e)
+        exit()
+
 
 
 if __name__ == '__main__':

@@ -10,8 +10,12 @@ from kalshi.auth_methods import getStoredUserId, getStoredCookie, sendRequestAnd
 # def placeMarketOrder(amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
 #     userId, cookie = getValidUserIdAndCookie()
 #     placeOrderWithAuth(userId, cookie, amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
+from kalshi.ticker_to_id import getIdFromTicker
 from kalshi.utils import bytesToJson
 
+def placeOrderTicker(amount, ticker, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
+    marketId = getIdFromTicker(ticker)
+    return placeOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)
 
 def placeOrder(amount, marketId, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
     url = '{}/users/{}/orders'.format(API_PREFIX, getStoredUserId())
