@@ -5,8 +5,7 @@ import os
 import requests
 
 from kalshi.ENVIRONMENT import API_PREFIX
-from kalshi.get_all_markets_with_auth import getAllMarketsWithAuth
-from kalshi.auth_methods import sendRequestAndRetryOnAuthFailure
+from kalshi.auth_methods import sendRequestAndRetryOnAuthFailure, getStoredCookie
 from kalshi.utils import bytesToJson
 
 
@@ -23,3 +22,9 @@ def getAllMarketsCached(): # Returns detail on ALL markets in json. Should not r
     callUrl = '{}/cached/markets/'.format(API_PREFIX)
     return sendRequestAndRetryOnAuthFailure(requests.get, url=callUrl)
     # return requests.get(url=callUrl)
+
+def getAllMarketsWithAuth(): # Returns detail on ALL markets in json.
+    callUrl = '{}/markets'.format(API_PREFIX)
+    return sendRequestAndRetryOnAuthFailure(requests.get, url=callUrl, headers={"Authorization": 'Bearer {}'.format(getStoredCookie())})
+    #return requests.get(url=callUrl, headers={"Authorization": 'Bearer {}'.format(authCookie)})
+

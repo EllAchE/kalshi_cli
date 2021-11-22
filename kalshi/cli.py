@@ -123,6 +123,5 @@ def parseBuyAndSell(args):
         exit()
 
 
-
 if __name__ == '__main__':
     createParsers()

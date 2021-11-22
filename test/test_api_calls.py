@@ -33,15 +33,15 @@ class TestApiCalls(unittest.TestCase):
         positions = getPositions()
         self.assertEqual(list(positions.keys())[0], 'market_positions')
 
-    def testPlaceOrder(self):
-        testMarketTicker = ''
-        amount = 1
-        price = 0.01
-        side = 'yes'
-        maxCost = 0.02 # optional argument
-        sellPositionCapped = None # optional argument
-        expiration = 1 # order lasts for one second if set this way
-
-        # no asserts
-        testOrder = placeOrder(amount, testMarketId, price, side, expiration, maxCost, sellPositionCapped)
-        self.assertEqual(testOrder['code'], 'invalid_content_type')
+    # def testPlaceOrder(self):
+    #     testMarketTicker = ''
+    #     amount = 1
+    #     price = 0.01
+    #     side = 'yes'
+    #     maxCost = 0.02 # optional argument
+    #     sellPositionCapped = None # optional argument
+    #     expiration = 1 # order lasts for one second if set this way
+    #
+    #     # no asserts
+    #     testOrder = placeOrder(amount, testMarketId, price, side, expiration, maxCost, sellPositionCapped)
+    #     self.assertEqual(testOrder['code'], 'invalid_content_type')
