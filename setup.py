@@ -4,7 +4,7 @@ setup(
     name='kalshi.cli',
     entry_points={
         'console_scripts': [
-            'kalshi = kalshi.cli:main',
+            'kalshi = kalshi_cli.kalshi.cli:main',
         ],
     }
 )
