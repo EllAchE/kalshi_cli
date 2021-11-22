@@ -3,6 +3,7 @@ import argparse
 from kalshi.get_market import printMarketOrderBook
 from kalshi.get_positions import getPositions
 from kalshi.place_order import placeOrder
+from kalshi.ticker_to_id import getIdFromTicker
 from kalshi.utils import getHelpMessage, printHelpCommands, generateExpirationSeconds
 from kalshi.logger import LOG
 
@@ -25,8 +26,8 @@ def createParsers():
     sellParser.add_argument('-s', help="Specify if you are selling yes or no shares. input a 'y' or 'n'", type=str, required=True)
 
     mktParser = subParser.add_parser('getMarket', help='Get Market Details')
-    mktParser.add_argument('-id', help="Id of the market to retrieve details for", required=True)
-    # todo switch this to ticker based
+    # mktParser.add_argument('-id', help="Id of the market to retrieve details for", required=True)
+    mktParser.add_argument('-ti', help="Ticker of the market to retrieve details for", required=True)
 
     subParser.add_parser('positions', help='List open positions')
 
@@ -65,7 +66,8 @@ def addOrderPlacingArguments(parser):
 
 def parseGetMarket(args):
     try:
-        marketId = args.id
+        ticker = args.ti
+        marketId = getIdFromTicker(ticker)
         printMarketOrderBook(marketId)
     except AttributeError as e:
         LOG.error(e)
@@ -102,6 +104,8 @@ def parseBuyAndSell(args):
         if (marketId is None and ticker is None):
             LOG.warning("Either ticker or id must be specified")
             exit()
+        if ticker is not None: # convert to
+            marketId = getIdFromTicker(ticker)
 
         if args.subparser_name == 'sell':
             price = 1 - price
