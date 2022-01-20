@@ -13,6 +13,9 @@ from kalshi.auth_methods import getStoredUserId, getStoredCookie, sendRequestAnd
 from kalshi.ticker_to_id import getIdFromTicker
 from kalshi.utils import bytesToJson
 
+def placeMarketOrderTicker(amount, ticker, side, expiration=0): # todo check if 0 seconds is supported
+    return placeOrderTicker(amount, ticker, 0.99, side, expiration)
+
 def placeOrderTicker(amount, ticker, price, side, expiration=None, maxCost=None, sellPositionCapped=None):
     marketId = getIdFromTicker(ticker)
     return placeOrder(amount, marketId, price, side, expiration, maxCost, sellPositionCapped)

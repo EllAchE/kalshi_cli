@@ -5,7 +5,6 @@ from kalshi.auth_methods import getValidUserIdAndCookie
 from kalshi.get_all_markets import getAllMarkets
 from kalshi.get_market import printMarketOrderBook, getMarketByTicker
 from kalshi.get_positions import getPositions
-from kalshi.place_order import placeOrder
 
 
 class TestApiCalls(unittest.TestCase):

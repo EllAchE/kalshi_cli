@@ -1,4 +1,7 @@
 pm_py
+dist
+*.egg
+*.egg-info
 .idea
 secrets.json
 credentials.json
